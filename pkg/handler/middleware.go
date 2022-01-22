@@ -2,33 +2,43 @@ package handler
 
 import (
 	"log"
+	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
+const Userid = "Userid";
+
 func (h *Handler) userIdenity(c *gin.Context) {
 	header := c.GetHeader("Authorization")
-
 	if header == "" {
 		log.Fatal("Invalid user header");
 		return
 	}
-
 	headerparts := strings.Split(header, " ")
 	if len(headerparts) != 2 || headerparts[0] != "Bearer" {
-		log.Fatalf("invalid auth header")
+		c.JSON(http.StatusBadRequest,gin.H { 
+			"result" : "invalid auth header",
+		})
 		return
 	}
-
-	UserId, err := h.services.Parsetoken(headerparts[1]);
+	userId, err := h.services.Parsetoken(headerparts[1]);
 	if err != nil {
-		log.Fatalf("user not found")
+		c.JSON(http.StatusBadRequest,gin.H { 
+			"result" : "user not found",
+		})
 		return
 	}
-	c.Set("Userid", UserId)
+	c.Set(Userid, userId)
 }
 
 
+
+func GetUser(c *gin.Context) int{  
+	id, _ := c.Get(Userid);
+	data, _ := id.(int)
+	return data;
+}
 
 

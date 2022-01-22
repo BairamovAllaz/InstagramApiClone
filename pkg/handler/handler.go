@@ -16,12 +16,10 @@ func NewHandler(services services.Service) *Handler {
 
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.Default()
-	router.GET("/",h.userIdenity,h.Home);
 	v1 := router.Group("/user")
 	{
 		v1.POST("/signin",h.Signin)
 		v1.POST("/signup",h.Signup)
-		v1.POST("/reset-password",h.ResetPassword)
 		v1.GET("/logout",h.Logout)
 	}
 

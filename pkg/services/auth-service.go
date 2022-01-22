@@ -3,13 +3,13 @@ package services
 import (
 	"Postresql/pkg/repository"
 	"Postresql/structs"
+	"crypto/sha1"
 	"errors"
 	"fmt"
 	"log"
 	"time"
 
 	"github.com/dgrijalva/jwt-go/v4"
-	"golang.org/x/crypto/bcrypt"
 )
 
 const(
@@ -22,7 +22,7 @@ type Authservicee struct {
 
 type claims struct { 
 	jwt.StandardClaims
-	Email string `json:"email"`
+	Id int `json:"id"`
 }
 
 func NewAuthService(repo repository.Authrization) *Authservicee { 
@@ -47,6 +47,7 @@ func(a *Authservicee)SignUp(user structs.SignUpuser)(string,error) {
 		return "", err;
 	} 
 	user.Password= hashpassword;
+	fmt.Println("User password ", user.Password)
 	newuser,err := a.repos.SignUp(user);
 	
 	if err != nil { 
@@ -59,7 +60,7 @@ func(a *Authservicee)SignUp(user structs.SignUpuser)(string,error) {
 			ExpiresAt: jwt.At(time.Now().Add(12 * time.Hour)),
 			IssuedAt: jwt.At(time.Now()),
 		},
-		Email: newuser.Email,
+		Id: newuser,
 	})
 
 	return token.SignedString([]byte(key));
@@ -68,7 +69,7 @@ func(a *Authservicee)SignUp(user structs.SignUpuser)(string,error) {
 
 ///*Parsing jwt token
 
-func(a *Authservicee)Parsetoken(token string) (string,error) { 
+func(a *Authservicee)Parsetoken(token string) (int,error) { 
 	mytoken,err := jwt.ParseWithClaims(token,&claims{},func(t *jwt.Token) (interface{}, error) {
 		if _,ok := t.Method.(*jwt.SigningMethodHMAC);!ok{
 			return nil,errors.New("Eroorparsing")
@@ -77,20 +78,21 @@ func(a *Authservicee)Parsetoken(token string) (string,error) {
 
 	})
 	if err != nil { 
-		return "",err;
+		return 0,err;
 	}
 	claim ,ok := mytoken.Claims.(*claims)
 
 	if !ok { 
-		return "",errors.New("errrrr"); 
+		return 0,errors.New("errrrr"); 
 	}
-	return claim.Email,nil;
+	return claim.Id,nil;
 }
 
 
 
 
 func HashPassword(userpassword string) (string,error) { 
-	bytes,err := bcrypt.GenerateFromPassword([]byte(userpassword),14);
-	return string(bytes),err;
+	hash := sha1.New()
+	hash.Write([]byte(userpassword))
+	return fmt.Sprintf("%x", hash.Sum([]byte("hfiuewfiuwuie"))),nil
 }

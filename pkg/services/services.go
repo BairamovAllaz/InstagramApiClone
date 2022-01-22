@@ -8,7 +8,7 @@ import (
 type Authservice interface {
 	Signin(user structs.User)(int,error)
 	SignUp(user structs.SignUpuser)(string,error)
-	Parsetoken(token string) (string,error)
+	Parsetoken(token string) (int,error)
 }
 
 type Service struct {

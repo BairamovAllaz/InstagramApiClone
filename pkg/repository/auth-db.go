@@ -32,17 +32,19 @@ func(a *Authmongo) Signin(user structs.User)(int,error) {
 	return id,nil; 
 }
 
-func(a *Authmongo)SignUp(user structs.SignUpuser)(structs.User,error) { 
-	querystring := `
-		SELECT username,email,password FROM users WHERE email=$1 AND password=$2`
-	var myuser structs.User;
 
-	err := a.db.QueryRow(querystring,user.Email,user.Password).Scan(&myuser.Username,&myuser.Email,&myuser.Passsword);
+
+func(a *Authmongo)SignUp(user structs.SignUpuser)(int,error) { 
+	querystring := `
+		SELECT id FROM users WHERE email=$1 AND password=$2`
+	var id int;
+
+	err := a.db.QueryRow(querystring,user.Email,user.Password).Scan(&id);
 
 	if err != nil {
-		return myuser,nil;
+		return 0,err;
 	}
-	return myuser,nil;
+	return id,nil;
 }
 
 
