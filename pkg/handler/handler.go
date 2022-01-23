@@ -23,5 +23,12 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		v1.GET("/logout",h.Logout)
 	}
 
+	v2 := router.Group("/add") 
+	{ 
+		v2.GET("/post",h.Addpost)
+	}
+
+	
+
 	return router
 }

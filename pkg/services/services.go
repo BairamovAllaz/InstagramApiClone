@@ -11,12 +11,18 @@ type Authservice interface {
 	Parsetoken(token string) (int,error)
 }
 
+type Postservice interface { 
+	Addpost(post structs.PostStruct)(int,error)
+}
+
 type Service struct {
 	Authservice
+	Postservice
 }
 
 func NewService(repos *repository.Repository) *Service { 
 	return &Service{
 		Authservice: NewAuthService(repos.Authrization),
+		Postservice: NewPosts(repos.Postrepo),
 	}
 }
