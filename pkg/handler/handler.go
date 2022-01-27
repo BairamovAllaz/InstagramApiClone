@@ -2,6 +2,7 @@ package handler
 
 import (
 	"Postresql/pkg/services"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,10 +26,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	v2 := router.Group("/add") 
 	{ 
-		v2.GET("/post",h.Addpost)
+		v2.POST("/post",h.Addpost)
 	}
-
-	
-
+	router.StaticFS("/file", http.Dir("Images"))
 	return router
 }

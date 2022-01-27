@@ -3,6 +3,8 @@ package services
 import (
 	"Postresql/pkg/repository"
 	"Postresql/structs"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Authservice interface {
@@ -11,8 +13,9 @@ type Authservice interface {
 	Parsetoken(token string) (int,error)
 }
 
+
 type Postservice interface { 
-	Addpost(post structs.PostStruct)(int,error)
+	Addpost(post structs.PostStruct,c *gin.Context)(string,error)
 }
 
 type Service struct {
