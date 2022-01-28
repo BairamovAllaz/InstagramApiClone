@@ -15,7 +15,9 @@ type Authservice interface {
 
 
 type Postservice interface { 
-	Addpost(post structs.PostStruct,c *gin.Context)(string,error)
+	Addpost(post structs.PostStruct,c *gin.Context,userid int)(string,error)
+	AddLikeToPostService(postid string,userid int)(int,error)
+	DeletPost(postid string,userid int) (int,error)
 }
 
 type Service struct {

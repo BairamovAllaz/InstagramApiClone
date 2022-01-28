@@ -12,18 +12,17 @@ type Authrization interface {
 }
 type Postrepo interface { 
 	Addpost(post structs.PostStruct)(int,error)
+	AddLikeToPostRepo(postid string,userid int)(int,error)
+	DeletePost(postid string ,userid int)(int,error)
 }
-
-
 ///interface struct
 type Repository struct {
 	Authrization //*interface
 	Postrepo
 }
-
 func NewRepository(db *sql.DB) *Repository { 
 	return &Repository{
 		Authrization: NewAuthSql(db),
 		Postrepo: NewPostData(db),
 	}
-}
+}	

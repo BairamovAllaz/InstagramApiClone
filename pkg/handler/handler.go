@@ -24,10 +24,17 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		v1.GET("/logout",h.Logout)
 	}
 
-	v2 := router.Group("/add") 
+	v2 := router.Group("/add",h.userIdenity) 
 	{ 
 		v2.POST("/post",h.Addpost)
 	}
+
+	v3 := router.Group("/do",h.userIdenity) 
+	{ 
+		v3.POST("/like/:id",h.AddLikeToPost)
+		v3.DELETE("/delete/:id",h.DeletPost)
+	}
+
 	router.StaticFS("/file", http.Dir("Images"))
 	return router
 }
