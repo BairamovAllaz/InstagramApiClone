@@ -32,6 +32,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	v3 := router.Group("/do",h.userIdenity) 
 	{ 
 		v3.POST("/like/:id",h.AddLikeToPost)
+		v3.PUT("/dislike/:id",h.AddDisLikeToPost)
 		v3.DELETE("/delete/:id",h.DeletPost)
 	}
 

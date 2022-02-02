@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"log"
 	"net/http"
 	"strings"
 
@@ -13,7 +12,9 @@ const Userid = "Userid";
 func (h *Handler) userIdenity(c *gin.Context) {
 	header := c.GetHeader("Authorization")
 	if header == "" {
-		log.Fatal("Invalid user header");
+		c.JSON(http.StatusUnauthorized,gin.H{ 
+			"error" : "invalid user header",
+		})
 		return
 	}
 	headerparts := strings.Split(header, " ")

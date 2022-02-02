@@ -61,3 +61,22 @@ func(h *Handler)DeletPost(c *gin.Context) {
 		"Result" : "Delete post success",
 	})
 }
+
+
+func(h *Handler)AddDisLikeToPost(c *gin.Context) { 
+	id := c.Param("id"); 
+	Userid := GetUser(c); 
+
+	_,err := h.services.AddDislikeToPost(id,Userid);
+
+	if err != nil { 
+		c.JSON(http.StatusBadRequest,gin.H{  
+			"error" : err.Error(),
+		})
+		return;
+	}
+
+	c.JSON(http.StatusOK,gin.H{  
+		"result" : "you are ok!! dislike it!!!!",
+	})
+}

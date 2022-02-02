@@ -18,6 +18,7 @@ type Postservice interface {
 	Addpost(post structs.PostStruct,c *gin.Context,userid int)(string,error)
 	AddLikeToPostService(postid string,userid int)(int,error)
 	DeletPost(postid string,userid int) (int,error)
+	AddDislikeToPost(postid string, userid int)(int,error)
 }
 
 type Service struct {

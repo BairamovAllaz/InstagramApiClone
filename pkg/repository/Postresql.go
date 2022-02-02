@@ -20,7 +20,6 @@ func NewPostSql(c Config)(*sql.DB,error) {
     c.Host, c.Port, c.Username, c.Password, c.DBname)
 
 	db, err := sql.Open("postgres", psqlInfo)
-	// db, err := sql.Open("postgres", "postgres://postgres:ellez2004@localhost:5432/app?sslmode=disable")
     if err != nil { 
         return nil,err;
     }

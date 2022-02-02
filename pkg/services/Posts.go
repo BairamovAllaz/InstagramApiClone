@@ -39,3 +39,10 @@ func(p *Posts)AddLikeToPostService(postid string,userid int)(int,error) {
 func(p *Posts)DeletPost(postid string,userid int) (int,error) { 
 	return p.repo.DeletePost(postid,userid);
 }
+
+
+func(p *Posts)AddDislikeToPost(postid string, userid int)(int,error){  
+
+	return p.repo.AddDislikeToPost(postid,userid);
+
+}

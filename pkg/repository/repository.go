@@ -14,6 +14,7 @@ type Postrepo interface {
 	Addpost(post structs.PostStruct)(int,error)
 	AddLikeToPostRepo(postid string,userid int)(int,error)
 	DeletePost(postid string ,userid int)(int,error)
+	AddDislikeToPost(postid string, userid int)(int,error)
 }
 ///interface struct
 type Repository struct {
