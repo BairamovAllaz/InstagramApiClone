@@ -21,6 +21,10 @@ type Postservice interface {
 	AddDislikeToPost(postid string, userid int)(int,error)
 }
 
+type Subscribeservice interface{ 
+	SubscribeTo(id string,userid int)(int,error)
+}
+
 type Service struct {
 	Authservice
 	Postservice

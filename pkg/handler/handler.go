@@ -36,6 +36,11 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		v3.DELETE("/delete/:id",h.DeletPost)
 	}
 
+	v4 := router.Group("/sub",h.userIdenity) 
+	{ 
+		v4.POST("/user/:id",h.SubscribeTo)
+	}
+
 	router.StaticFS("/file", http.Dir("Images"))
 	return router
 }
